@@ -51,10 +51,18 @@ namespace MarsRoverProblem
                 pos.direction = findPosition(_direction);
             }
 
-            private void setNewPosition(int _x, int _y)
+            private void setNewPosition(int _x, int _y, bool throwEx = false)
             {
                 if ((this.limitOfX < +pos.x + _x) || (this.limitOfY < +pos.y + _y))
-                    throw new Exception("Out of Limit!");
+                    if (!throwEx)
+                        Console.WriteLine("Out of Limit!");
+                    else
+                        throw new Exception("Out of Limit!");
+                else if (pos.x + _x < 0 || pos.y + _y < 0)
+                    if (!throwEx)
+                        Console.WriteLine("Out of plateau!");
+                    else
+                        throw new Exception("Out of plateau!");
 
                 pos.x += _x;
                 pos.y += _y;
@@ -102,7 +110,7 @@ namespace MarsRoverProblem
                 }
                 else if (position == 'R')
                 {
-                    if (pos.direction < ways.Length)
+                    if (pos.direction < ways.Length - 1)
                         pos.direction += 1;
                     else
                         pos.direction = 0;
